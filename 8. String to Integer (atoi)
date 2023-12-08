@@ -1,0 +1,35 @@
+class Solution {
+    public int myAtoi(String s) {
+        int index = 0;
+        int n = s.length();
+
+        // Step 1: Read and ignore leading whitespaces
+        while (index < n && Character.isWhitespace(s.charAt(index))) {
+            index++;
+        }
+
+        // Step 2: Check for sign
+        int sign = 1;
+        if (index < n && (s.charAt(index) == '+' || s.charAt(index) == '-')) {
+            sign = (s.charAt(index) == '-') ? -1 : 1;
+            index++;
+        }
+
+        // Step 3: Read in characters until the next non-digit character or end of input
+        int result = 0;
+        while (index < n && Character.isDigit(s.charAt(index))) {
+            int digit = s.charAt(index) - '0';
+
+            // Step 4: Check for overflow
+            if (result > (Integer.MAX_VALUE - digit) / 10) {
+                return (sign == 1) ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+            }
+
+            result = result * 10 + digit;
+            index++;
+        }
+
+        // Apply sign to the result
+        return result * sign;
+    }
+}
